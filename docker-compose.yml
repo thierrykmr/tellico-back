@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:8
+    container_name: tellico_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: tellico
+      MYSQL_ROOT_PASSWORD: tellico
+      MYSQL_USER: tellico
+      MYSQL_PASSWORD: tellico
+    ports:
+      - "1000:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: tellico_back
+    restart: always
+    ports:
+      - "3009:3009"
+    command: npm run start:dev  
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: tellico
+      DB_PASSWORD: tellico
+      DB_DATABASE: tellico
+
+volumes:
+  db_data: {}  
