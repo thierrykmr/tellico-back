@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from 'src/common/base.entity';
-import { ProductEntity } from '../../product/entity/product.entity';
-import { SupportRequestEntity } from 'src/module/supportRequest/entity/supportRequest.entity';
-import { InvoiceEntity } from 'src/module/invoice/entity/invoice.entity';
+import { ProductEntity } from '../../product/entities/product.entity';
+import { SupportRequestEntity } from 'src/module/supportRequest/entities/supportRequest.entity';
+import { InvoiceEntity } from 'src/module/invoice/entities/invoice.entity';
 
 export enum ComplaintStatus {
     OPEN = 'open',

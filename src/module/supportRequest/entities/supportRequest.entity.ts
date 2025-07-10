@@ -5,9 +5,9 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from 'src/common/base.entity';
-import { ComplaintEntity } from 'src/module/complaint/entity/complaint.entity';
+import { ComplaintEntity } from 'src/module/complaint/entities/complaint.entity';
 
 export enum SupportRequestStatus {
     RESOLVED = 'resolved',

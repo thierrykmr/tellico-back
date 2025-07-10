@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, In } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from '../../../common/base.entity';
-import { CartItemEntity } from '../../cart_item/entity/cart_item.entity';
-import { HistoryEntity } from '../../history/entity/history.entity';
-import { ComplaintEntity } from '../../complaint/entity/complaint.entity';
-import { ProductImageEntity } from 'src/module/productImage/entity/productImage.entity';
-import { InvoiceItemEntity } from 'src/module/invoice_item/entity/invoice_item.entity';
+import { CartItemEntity } from '../../cart_item/entities/cart_item.entity';
+import { HistoryEntity } from '../../history/entities/history.entity';
+import { ComplaintEntity } from '../../complaint/entities/complaint.entity';
+import { ProductImageEntity } from 'src/module/productImage/entities/productImage.entity';
+import { InvoiceItemEntity } from 'src/module/invoice_item/entities/invoice_item.entity';
 
 @Entity({name: 'products'})
 export class ProductEntity extends BaseEntity {

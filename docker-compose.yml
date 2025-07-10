@@ -12,6 +12,12 @@ services:
       - "1000:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "tellico", "-ptellico"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
 
   app:
     build: .
@@ -19,7 +25,10 @@ services:
     restart: always
     ports:
       - "3009:3009"
-    command: npm run start:dev  
+    command: ["./entrypoint.sh", "npm", "run", "start:dev"]
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_PORT: 3306

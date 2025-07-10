@@ -6,12 +6,12 @@ import {
 
 } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
-import { ProductEntity } from '../../product/entity/product.entity';
-import { CartEntity } from '../../cart/entity/cart.entity';
-import { HistoryEntity } from '../../history/entity/history.entity';
-import { ComplaintEntity } from 'src/module/complaint/entity/complaint.entity';
-import { SupportRequestEntity } from 'src/module/supportRequest/entity/supportRequest.entity';
-import { InvoiceEntity } from 'src/module/invoice/entity/invoice.entity';
+import { ProductEntity } from '../../product/entities/product.entity';
+import { CartEntity } from '../../cart/entities/cart.entity';
+import { HistoryEntity } from '../../history/entities/history.entity';
+import { ComplaintEntity } from 'src/module/complaint/entities/complaint.entity';
+import { SupportRequestEntity } from 'src/module/supportRequest/entities/supportRequest.entity';
+import { InvoiceEntity } from 'src/module/invoice/entities/invoice.entity';
 
 
 export enum UserRole {

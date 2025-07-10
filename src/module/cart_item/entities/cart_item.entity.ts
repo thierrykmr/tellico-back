@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { CartEntity } from '../../cart/entity/cart.entity';
-import { ProductEntity } from '../../product/entity/product.entity';
+import { CartEntity } from '../../cart/entities/cart.entity';
+import { ProductEntity } from '../../product/entities/product.entity';
 import { BaseEntity } from 'src/common/base.entity';
 
 @Entity({ name: 'cart_items' })
@@ -16,13 +16,11 @@ export class CartItemEntity extends BaseEntity {
     quantity: number;
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
-    unitPrice: string;
-
-    @ManyToOne(() => CartEntity, cart => cart.items)
-    @JoinColumn({ name: 'cartId' })
+    unitPrice: string;    @ManyToOne(() => CartEntity, cart => cart.items)
+    @JoinColumn({ name: 'cart_id' })
     cart: CartEntity;
 
     @ManyToOne(() => ProductEntity, (product) => product.cartItems, { eager: true })
-    @JoinColumn({ name: 'productId' })
+    @JoinColumn({ name: 'product_id' })
     product: ProductEntity;
 }

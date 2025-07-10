@@ -7,8 +7,8 @@ Column,
 ManyToOne,
 JoinColumn,
 } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
-import { ProductEntity } from '../../product/entity/product.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { ProductEntity } from '../../product/entities/product.entity';
 
 export enum HistoryStatus {
 CONFIRMED = 'confirmed',

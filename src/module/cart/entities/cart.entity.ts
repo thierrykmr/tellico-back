@@ -7,8 +7,8 @@ ManyToOne,
 JoinColumn,
 OneToMany,
 } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
-import { CartItemEntity } from 'src/module/cart_item/entity/cart_item.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { CartItemEntity } from 'src/module/cart_item/entities/cart_item.entity';
 
 export enum CartStatus {
 OPEN = 'open',

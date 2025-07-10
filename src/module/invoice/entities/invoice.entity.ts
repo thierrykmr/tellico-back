@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, OneToOne } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
-import { InvoiceItemEntity } from 'src/module/invoice_item/entity/invoice_item.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { InvoiceItemEntity } from 'src/module/invoice_item/entities/invoice_item.entity';
 import { BaseEntity } from 'src/common/base.entity';
-import { ComplaintEntity } from 'src/module/complaint/entity/complaint.entity';
+import { ComplaintEntity } from 'src/module/complaint/entities/complaint.entity';
 export enum InvoiceStatus {
     PAID = 'paid',
     FAILED = 'failed',

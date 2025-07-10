@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { InvoiceEntity } from 'src/module/invoice/entity/invoice.entity'; 
-import { ProductEntity } from '../../product/entity/product.entity';
+import { InvoiceEntity } from 'src/module/invoice/entities/invoice.entity'; 
+import { ProductEntity } from '../../product/entities/product.entity';
 import { BaseEntity } from 'src/common/base.entity';
 
 @Entity({ name: 'invoice_items' })
