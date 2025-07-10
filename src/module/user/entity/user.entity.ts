@@ -1,10 +1,18 @@
 import {
   Entity,
   Column,
-  BeforeInsert,
+  OneToMany,
+  JoinColumn,
+
 } from 'typeorm';
 import { BaseEntity } from '../../../common/base.entity';
-// import * as bcrypt from 'bcrypt';
+import { ProductEntity } from '../../product/entity/product.entity';
+import { CartEntity } from '../../cart/entity/cart.entity';
+import { HistoryEntity } from '../../history/entity/history.entity';
+import { ComplaintEntity } from 'src/module/complaint/entity/complaint.entity';
+import { SupportRequestEntity } from 'src/module/supportRequest/entity/supportRequest.entity';
+import { InvoiceEntity } from 'src/module/invoice/entity/invoice.entity';
+
 
 export enum UserRole {
 ADMIN = 'admin',
@@ -24,6 +32,9 @@ lastName: string;
 @Column({ type: 'varchar', unique: true, nullable: false })
 email: string;
 
+@Column({ nullable: true, name: 'refresh_token', unique: true })
+refreshToken: string;
+
 @Column({ type: 'varchar', nullable: false })
 phone: string;
 
@@ -39,10 +50,24 @@ location?: string;
 @Column({ type: 'boolean', default: true })
 isActive: boolean;
 
+//relations
+@OneToMany(() => ProductEntity, (product) => product.user)
+products: ProductEntity[];
 
-// @BeforeInsert()
-// async hashPassword() {
-//     this.password = await bcrypt.hash(this.password, 10);
-// }
+@OneToMany(() => CartEntity, (cart) => cart.user)
+carts: CartEntity[];
+
+@OneToMany(() => HistoryEntity, (history) => history.user)
+histories: HistoryEntity[];
+
+@OneToMany(() => InvoiceEntity, (invoice) => invoice.user)
+invoices: InvoiceEntity[];
+
+@OneToMany(() => ComplaintEntity, (complaint) => complaint.user)
+complaints: ComplaintEntity[];
+
+@OneToMany(() => SupportRequestEntity, (supportRequest) => supportRequest.user)
+supportRequests: SupportRequestEntity[];
+
 
 }

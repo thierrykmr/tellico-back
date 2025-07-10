@@ -1,9 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, In } from 'typeorm';
 import { UserEntity } from '../../user/entity/user.entity';
 import { BaseEntity } from '../../../common/base.entity';
+import { CartItemEntity } from '../../cart_item/entity/cart_item.entity';
+import { HistoryEntity } from '../../history/entity/history.entity';
+import { ComplaintEntity } from '../../complaint/entity/complaint.entity';
+import { ProductImageEntity } from 'src/module/productImage/entity/productImage.entity';
+import { InvoiceItemEntity } from 'src/module/invoice_item/entity/invoice_item.entity';
 
 @Entity({name: 'products'})
-export class Product extends BaseEntity {
+export class ProductEntity extends BaseEntity {
 
     @Column({ type: 'varchar', nullable: false })
     title: string;
@@ -38,9 +43,26 @@ export class Product extends BaseEntity {
     @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
     promotionRate: number | null;
 
-    // @OneToMany(() => ProductImage, image => image.product, {
-    // cascade: true,
-    // eager: true, // pour charger les images automatiquement
-    // })
-    // images: ProductImage[];
+    @ManyToOne(() => UserEntity, (user) => user.products)
+    @JoinColumn({ name: 'user_id' })
+    user: UserEntity;
+
+    @OneToMany(() => CartItemEntity, (item) => item.product)
+    cartItems: CartItemEntity[];
+
+    @OneToMany(() => HistoryEntity, (history) => history.product)
+    histories: HistoryEntity[];
+
+    @OneToMany(() => ComplaintEntity, (complaint) => complaint.product)
+    complaints: ComplaintEntity[];
+
+    @OneToMany(()=> InvoiceItemEntity, (invoiceItem) => invoiceItem.product)
+    invoiceItems: InvoiceItemEntity[];
+
+    @OneToMany(() => ProductImageEntity, (image) => image.product, {
+        cascade: true,
+        eager: true, // pour charger les images automatiquement
+    })
+    images: ProductImageEntity[];
+
 }

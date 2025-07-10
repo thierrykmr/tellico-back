@@ -1,16 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Cart } from '../../cart/entity/cart.entity';
-import { Product } from '../../product/entity/product.entity';
+import { CartEntity } from '../../cart/entity/cart.entity';
+import { ProductEntity } from '../../product/entity/product.entity';
 import { BaseEntity } from 'src/common/base.entity';
 
 @Entity({ name: 'cart_items' })
-export class CartItem extends BaseEntity {
+export class CartItemEntity extends BaseEntity {
 
     @Column({ name: 'cart_id' })
-    cartId: string;
+    cartId: number;
 
     @Column({ name: 'product_id' })
-    productId: string;
+    productId: number;
 
     @Column({ type: 'int', nullable: false })
     quantity: number;
@@ -18,11 +18,11 @@ export class CartItem extends BaseEntity {
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     unitPrice: string;
 
-    // @ManyToOne(() => Cart, cart => cart.items, { onDelete: 'CASCADE' })
-    // @JoinColumn({ name: 'cartId' })
-    // cart: Cart;
+    @ManyToOne(() => CartEntity, cart => cart.items)
+    @JoinColumn({ name: 'cartId' })
+    cart: CartEntity;
 
-    // @ManyToOne(() => Product, { eager: true })
-    // @JoinColumn({ name: 'productId' })
-    // product: Product;
+    @ManyToOne(() => ProductEntity, (product) => product.cartItems, { eager: true })
+    @JoinColumn({ name: 'productId' })
+    product: ProductEntity;
 }

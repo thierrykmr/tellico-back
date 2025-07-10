@@ -2,39 +2,40 @@ import { BaseEntity } from 'src/common/base.entity';
 import {
 
 Entity,
-PrimaryGeneratedColumn,
 Column,
 ManyToOne,
 JoinColumn,
-CreateDateColumn,
-UpdateDateColumn,
-BeforeInsert,
-BeforeUpdate,
+OneToMany,
 } from 'typeorm';
+import { UserEntity } from '../../user/entity/user.entity';
+import { CartItemEntity } from 'src/module/cart_item/entity/cart_item.entity';
 
 export enum CartStatus {
 OPEN = 'open',
 ORDERED = 'ordered',
 CANCELLED = 'cancelled',
-}
+};
 
-@Entity({name:'cart'})
-export class Cart extends BaseEntity {
+@Entity({name:'carts'})
+export class CartEntity extends BaseEntity {
 
 
 @Column({ name: 'user_id' })
-userId: string;
+userId: number;
 
-// Example: You may want to add a relation to the User entity
-// @ManyToOne(() => User, user => user.carts)
-// @JoinColumn({ name: 'userId' })
-// user: User;
 
 @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
 totalPrice: string;
 
 @Column({ type: 'enum', enum: CartStatus, default: CartStatus.OPEN })
 status: CartStatus;
+
+ @ManyToOne(() => UserEntity, (user) => user.carts)
+ @JoinColumn({ name: 'user_id' })
+ user: UserEntity;
+
+ @OneToMany(() => CartItemEntity, (item) => item.cart, { cascade: true })
+  items: CartItemEntity[];
 
 
 

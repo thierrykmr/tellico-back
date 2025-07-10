@@ -1,6 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 import { UserEntity } from '../../user/entity/user.entity';
 import { BaseEntity } from 'src/common/base.entity';
+import { ProductEntity } from '../../product/entity/product.entity';
+import { SupportRequestEntity } from 'src/module/supportRequest/entity/supportRequest.entity';
+import { InvoiceEntity } from 'src/module/invoice/entity/invoice.entity';
 
 export enum ComplaintStatus {
     OPEN = 'open',
@@ -9,18 +12,24 @@ export enum ComplaintStatus {
 }
 
 @Entity({name :'complaints'})
-export class Complaint extends BaseEntity {
+export class ComplaintEntity extends BaseEntity {
 
 
     @Column({name: 'userId'})
-    userId: string;
+    userId: number;
 
-    // @ManyToOne(() => User, user => user.complaints, { onDelete: 'CASCADE' })
-    // @JoinColumn({ name: 'userId' })
-    // user: User;
+
+    @Column({ name: 'productId', nullable: true })
+    productId?: number;
 
     @Column('text')
     content: string;
+
+    @Column({ name: 'invoiceId', nullable: true })
+    invoiceId?: number;
+
+    @Column({ name: 'supportRequestId', nullable: true })
+    supportRequestId?: number;
 
     @Column({
         type: 'enum',
@@ -28,4 +37,22 @@ export class Complaint extends BaseEntity {
         default: ComplaintStatus.PENDING,
     })
     status: ComplaintStatus;
+
+    @ManyToOne(() => ProductEntity, (product) => product.complaints, { nullable: true })
+    @JoinColumn({ name: 'productId' })
+    product?: ProductEntity;
+
+
+    @OneToOne(() => InvoiceEntity, (invoice) => invoice.complaint, { nullable: true})
+    @JoinColumn({ name: 'invoiceId' })
+    invoice?: InvoiceEntity;
+
+    @ManyToOne(() => UserEntity, user => user.complaints)
+    @JoinColumn({ name: 'userId' })
+    user: UserEntity;
+
+    @OneToOne(() => SupportRequestEntity, (supportRequest) => supportRequest.complaint, { nullable: true })
+    @JoinColumn({ name: 'supportRequestId' })
+    supportRequest?: SupportRequestEntity;
+
 }

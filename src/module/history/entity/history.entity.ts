@@ -7,6 +7,8 @@ Column,
 ManyToOne,
 JoinColumn,
 } from 'typeorm';
+import { UserEntity } from '../../user/entity/user.entity';
+import { ProductEntity } from '../../product/entity/product.entity';
 
 export enum HistoryStatus {
 CONFIRMED = 'confirmed',
@@ -14,17 +16,14 @@ PENDING = 'pending',
 CANCELLED = 'cancelled',
 }
 
-@Entity({ name: 'history'})
-export class History extends BaseEntity {
+@Entity({ name: 'histories'})
+export class HistoryEntity extends BaseEntity {
 
 @Column({name: 'product_id'})
-productId: string;
+productId: number;
 
 @Column({name: 'user_id'})
-userId: string;
-
-@Column({ name: 'seller_id' })
-sellerId: string;
+userId: number;
 
 @Column('int')
 quantity: number;
@@ -43,4 +42,15 @@ status: HistoryStatus;
 
 @Column({ type: 'boolean', default: false })
 confirmedBySeller: boolean;
+
+@ManyToOne(() => UserEntity, (user) => user.histories, { eager: true })
+@JoinColumn({ name: 'user_id' })
+user: UserEntity;
+
+
+@ManyToOne(() => ProductEntity, (product) => product.histories, { eager: true })
+@JoinColumn({ name: 'product_id' })
+product: ProductEntity;
+
 }
+
