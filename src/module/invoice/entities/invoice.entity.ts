@@ -13,7 +13,7 @@ export enum InvoiceStatus {
 export class InvoiceEntity extends BaseEntity {
 
   @Column('decimal')
-  totalPrice: number;
+  totalPrice: string;
 
   @Column()
   paymentMethod: string; // "whatsapp", "mobile_money", "cash", "OM", "Bank Card",

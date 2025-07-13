@@ -35,17 +35,17 @@ email: string;
 @Column({ nullable: true, name: 'refresh_token', unique: true })
 refreshToken: string;
 
-@Column({ type: 'varchar', nullable: false })
+@Column({ type: 'varchar'})
 phone: string;
 
-@Column({ type: 'varchar', nullable: false })
+@Column({ type: 'varchar'})
 password: string;
 
 @Column({ type: 'enum', enum: UserRole })
 role: UserRole;
 
 @Column({ type: 'varchar', nullable: true })
-location?: string;
+location: string;
 
 @Column({ type: 'boolean', default: true })
 isActive: boolean;

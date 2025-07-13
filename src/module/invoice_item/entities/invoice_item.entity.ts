@@ -10,7 +10,7 @@ export class InvoiceItemEntity extends BaseEntity {
   quantity: number;
 
   @Column('decimal')
-  unitPrice: number;
+  unitPrice: string;
 
   @ManyToOne(() => InvoiceEntity, (invoice) => invoice.items)
   @JoinColumn({ name: 'invoice_id' })

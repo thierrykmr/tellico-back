@@ -16,7 +16,9 @@ export class CartItemEntity extends BaseEntity {
     quantity: number;
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
-    unitPrice: string;    @ManyToOne(() => CartEntity, cart => cart.items)
+    unitPrice: string;    
+    
+    @ManyToOne(() => CartEntity, cart => cart.items)
     @JoinColumn({ name: 'cart_id' })
     cart: CartEntity;
 

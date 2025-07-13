@@ -10,38 +10,35 @@ import { InvoiceItemEntity } from 'src/module/invoice_item/entities/invoice_item
 @Entity({name: 'products'})
 export class ProductEntity extends BaseEntity {
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar'})
     title: string;
 
-    @Column({ type: 'text', nullable: false })
+    @Column({ type: 'text'})
     description: string;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
-    price: number;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    price: string;
 
-    @Column({ type: 'int', nullable: false })
+    @Column({ type: 'int'})
     quantity: number;
 
-    @Column({ type: 'varchar', nullable: false })
+    @Column({ type: 'varchar' })
     category: string;
 
-    @Column({ type: 'varchar', nullable: false })
-    location: string;
+    @Column({ type: 'varchar', nullable: true })
+    location?: string;
 
-    @Column({ type: 'varchar', nullable: false })
-    phone: string;
+    @Column({ type: 'varchar', nullable: true })
+    phone?: string;
 
     @Column({ type: 'boolean', default: true })
     isActive: boolean;
-
-    // @ManyToOne(() => UserEntity, user => user.products, { nullable: false })
-    // seller: UserEntity;
 
     @Column({ type: 'boolean', default: false })
     isPromoted: boolean;
 
     @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
-    promotionRate: number | null;
+    promotionRate?: string;
 
     @ManyToOne(() => UserEntity, (user) => user.products)
     @JoinColumn({ name: 'user_id' })
@@ -60,7 +57,6 @@ export class ProductEntity extends BaseEntity {
     invoiceItems: InvoiceItemEntity[];
 
     @OneToMany(() => ProductImageEntity, (image) => image.product, {
-        cascade: true,
         eager: true, // pour charger les images automatiquement
     })
     images: ProductImageEntity[];
