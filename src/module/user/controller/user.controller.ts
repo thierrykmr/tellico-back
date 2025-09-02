@@ -1,8 +1,8 @@
-import { UserService } from '../../service/user.service';
-import { CreateUserDto } from '../../dto/create-user.dto';
-import { UpdateUserDto } from '../../dto/update-user.dto';
+import { UserService } from '../service/user.service';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 import { Body, Post, Controller, Delete, Get, Param, Patch, UseGuards } from '@nestjs/common/decorators';
-import { AccessTokenGuard } from '../../../auth/guards/accessToken.guard';
+import { AccessTokenGuard } from '../../auth/guards/accessToken.guard';
 
 @Controller()
 export class UserController {
