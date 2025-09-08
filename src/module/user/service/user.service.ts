@@ -5,6 +5,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { UserEntity } from '../entities/user.entity';
+import { Console } from 'console';
 
 
 
@@ -32,19 +33,15 @@ export class UserService {
         return user;
     }
 
-    async findByEmail(email: string): Promise<UserEntity> {
-        const user = await this.userRepository.findOneBy({ email: email });
-        if (!user) {
-            throw new NotFoundException(`User with email ${email} not found`);
-        }
+    async findByEmail(email: string): Promise<UserEntity | null> {
+        const user = await this.userRepository.findOne({ where: { email } });
         return user;
     }
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-        return this.userRepository.save({
-        id: id,
-        refreshToken: updateUserDto.refreshToken,
-        });
+        const user = await this.findById(id);
+        const updatedUser = Object.assign(user, updateUserDto);
+        return await this.userRepository.save(updatedUser);
     }
 
     async resetPassword(email: string) {

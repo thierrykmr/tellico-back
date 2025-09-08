@@ -1,24 +1,22 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-jwt";
 import { Request } from "express";
 
-const cookieExtractor = (req: any) => {
-  let jwt = null;
-
-  if (req && req.cookies) {
-    jwt = req.cookies['refreshToken'];
+// Extracteur de cookie sécurisé et typé
+const cookieExtractor = (req: Request): string | null => {
+  if (req?.cookies?.refreshToken) {
+    return req.cookies.refreshToken;
   }
-
-  return jwt;
+  return null;
 };
 
-type JwtPayload = {
+type RefreshTokenPayload = {
   sub: number;
   email: string;
   iat?: number;
   exp?: number;
-  role?: string;
+  role: string;
   isActive: boolean;
 };
 
@@ -32,18 +30,30 @@ export class RefreshTokenStrategy extends PassportStrategy(
       jwtFromRequest: cookieExtractor,
       secretOrKey: process.env.JWT_REFRESH_SECRET,
       passReqToCallback: true,
+      ignoreExpiration: false, // Vérification de l'expiration
     } as any);
   }
 
-  validate(req: Request, payload: JwtPayload) {
-    // Récupérer le refresh token depuis les cookies
-    const refreshToken = req.cookies?.['refreshToken'];
+  async validate(req: Request, payload: RefreshTokenPayload) {
+    // Validation du payload
+    if (!payload.sub || !payload.email) {
+      throw new UnauthorizedException('Refresh token invalide');
+    }
+
+    // Récupération sécurisée du refresh token
+    const refreshToken = req.cookies?.refreshToken;
     
-    // Retourner les données utiles
-    return { 
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token manquant');
+    }
+
+    // Retourner toutes les données nécessaires
+    return {
       sub: payload.sub,
       email: payload.email,
-      refreshToken 
+      role: payload.role,
+      isActive: payload.isActive,
+      refreshToken, // Nécessaire pour la vérification en base
     };
   }
 }

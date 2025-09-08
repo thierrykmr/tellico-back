@@ -2,7 +2,7 @@ FROM node:22
 WORKDIR /code 
 COPY ./package.json .
 COPY ./package-lock.json .
-RUN npm install
+RUN npm install -g nodemon
 COPY . .
 
 # Copier le script d'attente et d'entrée
@@ -12,4 +12,6 @@ RUN chmod +x entrypoint.sh
 
 # Utiliser le script d'entrée
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["npm", "run", "deploy:prod"]
+# CMD ["npm", "run", "deploy:prod"]
+
+CMD ["npm", "run", "start:dev"]
