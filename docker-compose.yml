@@ -25,7 +25,12 @@ services:
     restart: always
     ports:
       - "3009:3009"
-    #command: ["./entrypoint.sh", "npm", "run", "start:dev"]        
+    #command: ["./entrypoint.sh", "npm", "run", "start:dev"]  
+    volumes:
+      - ./src/:/code/src/
+      - ./db:/code/db
+      - ./package.json:/code/package.json
+      - ./package-lock.json:/code/package-lock.json
     depends_on:
       db:
         condition: service_healthy

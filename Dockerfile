@@ -2,7 +2,7 @@ FROM node:22
 WORKDIR /code 
 COPY ./package.json .
 COPY ./package-lock.json .
-RUN npm install -g nodemon
+RUN npm install
 COPY . .
 
 # Copier le script d'attente et d'entrée

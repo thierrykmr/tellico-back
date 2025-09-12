@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './common/datasource';
 import { UserModule } from './module/user/user.module';
+import { ProductModule } from './module/product/product.module';
 import { AuthModule } from './module/auth/auth.module';
 import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { DuplicateEntryException } from './common/http-filters';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ProductImageModule } from './module/productImage/product-image.module';
 
 export const API_PREFIX = 'api/v1';
 
@@ -24,11 +26,21 @@ export const API_PREFIX = 'api/v1';
           path: 'auth',
           module: AuthModule,
         },
+        {
+          path: 'products',
+          module: ProductModule,
+        },
+        {
+          path: 'product-images',
+          module: ProductImageModule,
+        }
       ],
     },
   ]),
   AuthModule,
   UserModule,
+  ProductModule,
+  ProductImageModule,
   EventEmitterModule.forRoot(),
 
 

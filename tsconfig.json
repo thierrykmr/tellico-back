@@ -17,5 +17,8 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval", // Pour automatiquement recompiler dans Docker (aprèsMAJ du code), fonctionne avec les volumes
+  },
 }

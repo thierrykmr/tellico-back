@@ -7,12 +7,11 @@ export class CreateProductImageDto {
     url: string;
 
     @IsBoolean()
+    @IsOptional()
     isMain: boolean;
 
     @IsString()
     @IsOptional()
     altText?: string;
 
-    @IsNumber()
-    productId: number;
 }

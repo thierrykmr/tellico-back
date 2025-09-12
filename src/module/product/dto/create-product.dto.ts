@@ -1,4 +1,5 @@
-import { IsString, IsNumber, IsBoolean, IsOptional, IsArray, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsOptional, IsArray, IsNotEmpty, IsPositive } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateProductDto {
 
@@ -16,6 +17,8 @@ export class CreateProductDto {
 
     @IsNumber()
     @IsNotEmpty()
+    @Type(() => Number) // Pour la transformation automatique depuis string
+    @IsPositive({ message: 'La quantité doit être positive' })
     quantity: number;
 
     @IsString()
@@ -34,6 +37,7 @@ export class CreateProductDto {
     @IsOptional()
     promotionRate?: string;
 
-    @IsNumber()
-    userId: number;
+    // @IsNumber()
+    // userId: number;
+    //  il sera récupéré depuis le token JWT via req.user.sub
 }

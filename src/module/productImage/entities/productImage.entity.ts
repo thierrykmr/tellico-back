@@ -10,7 +10,7 @@ export class ProductImageEntity extends BaseEntity {
     url: string;
 
     @Column({ default: false })
-    isMain: boolean;
+    isMain?: boolean;
 
     @Column({ nullable: true })
     altText?: string;
