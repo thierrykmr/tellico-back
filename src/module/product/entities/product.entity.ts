@@ -2,10 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMan
 import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from '../../../common/base.entity';
 import { CartItemEntity } from '../../cart_item/entities/cart_item.entity';
-import { HistoryEntity } from '../../history/entities/history.entity';
 import { ComplaintEntity } from '../../complaint/entities/complaint.entity';
 import { ProductImageEntity } from 'src/module/productImage/entities/productImage.entity';
-import { InvoiceItemEntity } from 'src/module/invoice_item/entities/invoice_item.entity';
 
 @Entity({name: 'products'})
 export class ProductEntity extends BaseEntity {
@@ -47,14 +45,8 @@ export class ProductEntity extends BaseEntity {
     @OneToMany(() => CartItemEntity, (item) => item.product)
     cartItems: CartItemEntity[];
 
-    @OneToMany(() => HistoryEntity, (history) => history.product)
-    histories: HistoryEntity[];
-
     @OneToMany(() => ComplaintEntity, (complaint) => complaint.product)
     complaints: ComplaintEntity[];
-
-    @OneToMany(()=> InvoiceItemEntity, (invoiceItem) => invoiceItem.product)
-    invoiceItems: InvoiceItemEntity[];
 
     @OneToMany(() => ProductImageEntity, (image) => image.product, {
         eager: true, // pour charger les images automatiquement

@@ -7,7 +7,6 @@ import { HistoryEntity } from "src/module/history/entities/history.entity";
 import { ComplaintEntity } from "src/module/complaint/entities/complaint.entity";
 import { SupportRequestEntity } from "src/module/supportRequest/entities/supportRequest.entity";
 import { InvoiceEntity } from "src/module/invoice/entities/invoice.entity";
-import { InvoiceItemEntity } from "src/module/invoice_item/entities/invoice_item.entity";
 
 export const entities = [
   UserEntity,
@@ -18,6 +17,5 @@ export const entities = [
   HistoryEntity,
   ComplaintEntity,
   SupportRequestEntity,
-  InvoiceEntity,
-  InvoiceItemEntity,
+  InvoiceEntity
 ];

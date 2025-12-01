@@ -8,6 +8,8 @@ import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { DuplicateEntryException } from './common/http-filters';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ProductImageModule } from './module/productImage/product-image.module';
+import { CartItemModule } from './module/cart_item/cart-item.module';
+import { CartModule } from './module/cart/cart.module';
 
 export const API_PREFIX = 'api/v1';
 
@@ -33,6 +35,14 @@ export const API_PREFIX = 'api/v1';
         {
           path: 'product-images',
           module: ProductImageModule,
+        },
+        {
+          path: 'cart-items',
+          module: CartItemModule
+        },
+        {
+          path: 'carts',
+          module: CartModule
         }
       ],
     },
@@ -41,6 +51,8 @@ export const API_PREFIX = 'api/v1';
   UserModule,
   ProductModule,
   ProductImageModule,
+  CartItemModule,
+  CartModule,
   EventEmitterModule.forRoot(),
 
 

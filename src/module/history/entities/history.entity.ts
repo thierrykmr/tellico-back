@@ -8,7 +8,7 @@ ManyToOne,
 JoinColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entities/user.entity';
-import { ProductEntity } from '../../product/entities/product.entity';
+import { CartEntity } from '../../cart/entities/cart.entity';
 
 export enum HistoryStatus {
 CONFIRMED = 'confirmed',
@@ -48,9 +48,9 @@ confirmedBySeller: boolean;
 user: UserEntity;
 
 
-@ManyToOne(() => ProductEntity, (product) => product.histories, { eager: true })
-@JoinColumn({ name: 'product_id' })
-product: ProductEntity;
+@ManyToOne(() => CartEntity, (cart) => cart.histories, { eager: true })
+@JoinColumn({ name: 'cart_id' })
+cart: CartEntity;
 
 }
 

@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { CartStatus } from '../entities/cart.entity';
 
 
@@ -13,6 +13,10 @@ export class CreateCartDto {
 
     @IsEnum(CartStatus)
     status: CartStatus;
+
+    @IsOptional()
+    @IsDate()
+    orderedAt?: Date;
    
      
 

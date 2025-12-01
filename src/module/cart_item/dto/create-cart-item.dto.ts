@@ -1,15 +1,16 @@
-import { IsNotEmpty, IsNumber} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional} from 'class-validator';
 
 export class CreateCartItemDto {
 
     @IsNotEmpty()
     @IsNumber()
     quantity: number;
-    
-    @IsNumber()
-    productId: number;
  
+    @IsOptional()
     @IsNumber()
-    cartId: number;
+    cartId?: number;
+
+    // userId sera injecté automatiquement depuis le token d'authentification
+    // productId sera fourni via l'URL du endpoint
     
 }
