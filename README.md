@@ -1,98 +1,225 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# tellico-back
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+[![Node](https://img.shields.io/badge/Node-%3E=%2018-brightgreen)]()
+[![Type](https://img.shields.io/badge/type-Backend%20API-blue)]()
+[![Docker](https://img.shields.io/badge/docker-ready-lightgrey)]()
+[![Licence](https://img.shields.io/badge/licence-%C3%A0%20pr%C3%A9ciser-lightgrey)]()
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+L'application Tellico est un application de e-commerce plus que traditionnnelle, il fera appel à l'IA pour ameliorer l'experience utilisateur et les ventes.
+Tellico-back : Backend de l'application Tellico — API TypeScript (structure modulaire) prête pour le développement local et le déploiement Docker. Ce README a été mis à jour pour inclure une documentation des endpoints REST courants, déduits de la structure du projet (modules présents : auth, user, product, productImage, cart, cart_item, invoice, complaint, supportRequest, history).
 
-## Description
+Table des matières
+- [Aperçu rapide](#aper%C3%A7u-rapide)
+- [Prérequis & installation](#pr%C3%A9requis--installation)
+- [Configuration](#configuration)
+- [Exécution](#ex%C3%A9cution)
+- [Endpoints API (documentés)](#endpoints-api-document%C3%A9s)
+  - [Authentification (auth)](#authentification-auth)
+  - [Utilisateurs (user)](#utilisateurs-user)
+  - [Produits (product)](#produits-product)
+  - [Images produit (productImage)](#images-produit-productimage)
+  - [Panier (cart) & lignes de panier (cart_item)](#panier-cart--lignes-de-panier-cart_item)
+  - [Factures (invoice)](#factures-invoice)
+  - [Réclamations / Support (complaint / supportRequest)](#r%C3%A9clamations--support-complaint--supportrequest)
+  - [Historique (history)](#historique-history)
+  - [Autres endpoints utiles](#autres-endpoints-utiles)
+- [Tests & qualité](#tests--qualit%C3%A9)
+- [Structure du projet](#structure-du-projet)
+- [Fichiers importants](#fichiers-importants)
+- [Licence & contact](#licence--contact)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Aperçu rapide
+-------
+Le projet expose une API REST organisée par modules. Les routes ci-dessous sont des chemins et méthodes prédictifs basés sur la nomenclature des modules trouvés. Vérifie les contrôleurs réels dans `src/module/*` pour confirmer les chemins exacts et les paramètres.
 
-## Project setup
+Prérequis & installation
+------------------------
+- Node.js v18+ recommandé
+- npm (ou yarn)
+- Docker & docker-compose (si nécessaire)
+- Git
 
+Installation locale :
 ```bash
-$ npm install
+git clone https://github.com/thierrykmr/tellico-back.git
+cd tellico-back
+npm install
+cp .env.example .env   # modifier les valeurs
+npm run start:dev
 ```
 
-## Compile and run the project
+Configuration
+-------------
+- Un fichier `.env.example` est présent ; copie-le en `.env` et adapte les variables (DB, JWT secret, ports, etc.).
+- Consulte `ENVIRONMENT.md` pour la documentation détaillée des variables.
 
+Exécution
+---------
+- En développement :
+  - npm run start:dev
+- En production :
+  - npm run build
+  - npm run start:prod
+- Avec Docker :
+  - docker-compose up --build
+
+Endpoints API (documentés)
+--------------------------
+Note : J'ai listé ci-dessous des endpoints standard attendus pour chaque module. Confirme les noms exacts et paramètres dans les fichiers contrôleurs (`src/module/.../controller*.ts`) si besoin.
+
+Authentification (auth)
+- POST /auth/register
+  - Description : création d'un compte utilisateur.
+  - Body (exemple) : { "email": "user@example.com", "password": "pass", "name":"..." }
+  - Réponse : utilisateur créé (sans password) ou token selon implémentation.
+- POST /auth/login
+  - Description : connexion, retourne un JWT.
+  - Body : { "email": "user@example.com", "password": "pass" }
+  - Réponse : { "accessToken": "..." }
+- POST /auth/refresh
+  - Description : rafraîchissement de token (si supporté).
+- POST /auth/logout
+  - Description : invalidation du token/refresh (si implémenté).
+
+Utilisateurs (user)
+- GET /users
+  - Description : liste des utilisateurs (admin).
+  - Query params : pagination, filtres éventuels.
+- GET /users/:id
+  - Description : récupérer un utilisateur par id.
+- POST /users
+  - Description : créer un utilisateur (si non géré via /auth/register).
+- PUT /users/:id
+  - Description : mise à jour d'un utilisateur.
+- DELETE /users/:id
+  - Description : suppression d'un utilisateur.
+- GET /users/me
+  - Description : info du profil de l'utilisateur authentifié (Bearer token requis).
+
+Produits (product)
+- GET /products
+  - Description : liste des produits.
+  - Query params : page, limit, q, category, sort.
+- GET /products/:id
+  - Description : détail d'un produit.
+- POST /products
+  - Description : création de produit (admin).
+  - Body : { name, description, price, stock, ... }
+- PUT /products/:id
+  - Description : mise à jour produit (admin).
+- DELETE /products/:id
+  - Description : suppression produit (admin).
+
+Images produit (productImage)
+- POST /products/:productId/images
+  - Description : upload d'une image pour un produit.
+  - Body : form-data (file).
+- GET /products/:productId/images
+  - Description : lister images d'un produit.
+- DELETE /products/:productId/images/:imageId
+  - Description : supprimer une image.
+
+Panier (cart) & lignes de panier (cart_item)
+- GET /carts/:userId
+  - Description : récupérer le panier de l'utilisateur.
+- POST /carts
+  - Description : créer un panier (ou l'ajouter à la session).
+  - Body : { userId, ... }
+- POST /carts/:cartId/items
+  - Description : ajouter un item au panier.
+  - Body : { productId, quantity }
+- PUT /carts/:cartId/items/:itemId
+  - Description : modifier la quantité d'un item.
+- DELETE /carts/:cartId/items/:itemId
+  - Description : retirer un item.
+- POST /carts/:cartId/checkout
+  - Description : valider le panier -> création de facture/commande (selon implémentation).
+
+Factures (invoice)
+- GET /invoices
+  - Description : liste des factures (admin / utilisateur restreint).
+- GET /invoices/:id
+  - Description : récupérer une facture.
+- POST /invoices
+  - Description : créer une facture (généralement suite au checkout).
+- GET /invoices/:id/pdf
+  - Description : télécharger la facture en PDF (si générée).
+
+Réclamations / Support (complaint / supportRequest)
+- GET /complaints
+  - Description : lister réclamations (admin).
+- POST /complaints
+  - Description : soumettre une réclamation.
+  - Body : { userId, orderId?, message, category }
+- GET /support-requests
+  - Description : lister demandes de support.
+- POST /support-requests
+  - Description : créer une demande de support.
+  - Body : { userId, subject, message }
+
+Historique (history)
+- GET /history/:userId
+  - Description : historique des actions/achats de l'utilisateur.
+- POST /history
+  - Description : enregistrer un événement dans l'historique (interne).
+
+Autres endpoints utiles
+- GET /health ou GET /healthz
+  - Description : endpoint de santé (utilisé par orchestrateurs).
+- GET /metrics
+  - Description : métriques applicatives (si exposées).
+- Documentation API (si présente) :
+  - GET /docs ou GET /swagger (vérifier si Swagger / OpenAPI est configuré).
+
+Exemples d'appel (avec JWT Bearer)
+- Récupérer produits :
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+curl -H "Authorization: Bearer <TOKEN>" "http://localhost:3000/products"
+```
+- Ajouter au panier :
+```bash
+curl -X POST -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" \
+  -d '{"productId":"abc","quantity":2}' "http://localhost:3000/carts/123/items"
 ```
 
-## Run tests
-
+Tests & qualité
+---------------
+- Les configurations ESLint/Prettier sont présentes (`eslint.config.mjs`, `.prettierrc`).
+- Lancer la suite de tests (si définie) :
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run test
 ```
 
-## Deployment
+Structure du projet
+-------------------
+- src/
+  - module/
+    - auth/
+    - user/
+    - product/
+    - productImage/
+    - cart/
+    - cart_item/
+    - invoice/
+    - complaint/
+    - supportRequest/
+    - history/
+- test/
+- Dockerfile, docker-compose.yml, .env.example, ENVIRONMENT.md
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Fichiers importants
+-------------------
+- `.env.example` — exemple de variables d'environnement
+- `ENVIRONMENT.md` — documentation détaillée des variables d'environnement
+- `Dockerfile`, `docker-compose.yml` — conteneurisation
+- `entrypoint.sh`, `wait-for-db.js` — scripts d'initialisation
+- `package.json` — scripts et dépendances
+- `eslint.config.mjs`, `.prettierrc` — configuration qualité
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Licence & contact
+-----------------
+- Auteur : Thierry — @thierrykmr
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Remarque importante
+------------------
+Les chemins et méthodes ci-dessus sont des conventions courantes proposées à partir des modules présents dans le code. Pour les valeurs, paramètres exacts, validations et noms de routes réellement exposés, consulter les fichiers contrôleurs dans `src/module/*` (fichiers `*.controller.ts` ou fichiers exportant les routes).
