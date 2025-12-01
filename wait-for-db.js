@@ -22,13 +22,13 @@ const waitForDatabase = async () => {
       await connection.execute('SELECT 1');
       await connection.end();
       
-      console.log('✅ MySQL est prêt ! Démarrage de l\'application...');
+      console.log(' MySQL est prêt ! Démarrage de l\'application...');
       return;
     } catch (error) {
-      console.log(`❌ MySQL non disponible (${error.code}). Nouvelle tentative dans ${retryDelay/1000}s...`);
+      console.log(` MySQL non disponible (${error.code}). Nouvelle tentative dans ${retryDelay/1000}s...`);
       
       if (i === maxRetries - 1) {
-        console.error('🚨 Impossible de se connecter à MySQL après toutes les tentatives');
+        console.error(' Impossible de se connecter à MySQL après toutes les tentatives');
         process.exit(1);
       }
       
